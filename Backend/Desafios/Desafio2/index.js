@@ -1,5 +1,6 @@
 "use strict"
 import { readFile } from "fs/promises"
+import fs from "node:fs"
 import { describe } from "node:test"
 
 /* const personas = JSON.parse(fs.readFileSync("personasTrue.json", "utf-8")) */
@@ -9,12 +10,25 @@ function readJSON(file) {
         .then(data => JSON.parse(data))
 }
 
+//5.Funcionalidad que genera un objeto JSON. 
+function writeJSON(file, data) {
+    const json = JSON.stringify(data, null, 2)
+    fs.writeFile(file, json, "utf-8", (err) => {
+        if (err) {
+            console.log("Error al escribir el archivo JSON:", err)
+            return
+        }
+        console.log("Archivo JSON creado con exito")
+    })
+}
+
 (function main() {
     readJSON("personasTrue.json")
         .then(data => {
             //1. Promedio de edad de las personas.
             const promedio = data.reduce((suma, persona) => suma += persona.edad, 0) / data.length
             console.log("Promedio de edad:", Math.round(promedio))
+            //------------------------------------------------------------------ PUNTO 2 ----------------------------------------------------------------------------------------
             //2. Persona mas joven del conjunto.
             const esMasJoven = data.reduce((presonaJoven, personaActual) => {
                 if (!presonaJoven || personaActual.edad < presonaJoven.edad) {
@@ -33,13 +47,68 @@ function readJSON(file) {
                     mapPerson.get(persona.apellido).set(persona.nombre, persona)
                     : mapPerson.set(persona.apellido, new Map([[persona.nombre, persona]]))
             })
+            //------------------------------------------------------------------ PUNTO 3 ----------------------------------------------------------------------------------------
             //3. Nombres ordenados con apellido GOMEZ.
             let nombres = []
             Array.from(mapPerson.get("GOMEZ").values())
                 .sort((persona1, persona2) => persona1.nombre.localeCompare(persona2.nombre))
                 .forEach(persona => nombres.push(persona.nombre))
             console.log("Nombres ordenados con apellido GOMEZ: ", nombres.join(", "))
-            /* console.log("Mapa de personas:", mapPerson) */
+            //------------------------------------------------------------------ PUNTO 4 ----------------------------------------------------------------------------------------
+            //4. Suma de edades de todas las personas con longitud de nombre par y apellido impar. 
+            const suma = data.reduce((suma, persona) => {
+                if (persona.nombre.length % 2 === 0 && persona.apellido.length % 2 !== 0) {
+                    return suma += persona.edad
+                }
+                return suma
+            }, 0)
+            console.log("Suma de edades de personas con nombre par y apellido impar:", suma)
+            //------------------------------------------------------------------ PUNTO 5 ----------------------------------------------------------------------------------------
+            //5. Lo que va a contener el archivo JSON.
+            let may = 0
+            data.forEach(persona => {
+                if (persona.edad > 18) {
+                    return may += 1
+                }
+            })
+            let men = 0
+            data.forEach(persona => {
+                if (persona.edad <= 18) {
+                    return men += 1
+                }
+            })
+            let priMit = 0
+            data.forEach(persona => {
+                if (persona.apellido[0] >= "A" && persona.apellido[0] <= "L") {
+                    return priMit += 1
+                }
+            })
+            let segMit = 0
+            data.forEach(persona => {
+                if (persona.apellido[0] >= "M" && persona.apellido[0] <= "Z") {
+                    return segMit += 1
+                }
+            })
+            const datosParaGuardar = {
+                "mayores": may,
+                "menores": men,
+                "primeraMitad": priMit,
+                "segundaMitad": segMit
+            }
+            /* writeJSON("punto5.json", datosParaGuardar) */
+            //------------------------------------------------------------------ PUNTO 6 ----------------------------------------------------------------------------------------
+            //6. Contenido para el archivo JSON creado en el punto JSON. 
+            const cantCastillos = []
+            data.forEach(persona => {
+                if (persona.apellido === "CASTILLO") {
+                    return cantCastillos.push(persona)
+                }
+            })
+            console.log("Cantidad de personas con apellido CASTILLO:", cantCastillos.length)
+            const keys = mapPerson.keys()
+            for (const clave of keys) {
+                console.log(mapPerson.get(clave))
+            }
         })
         .catch(err => console.error("Error al consumir el archivo JSON:", err))
 })()
