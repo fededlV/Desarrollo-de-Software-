@@ -1,7 +1,7 @@
 "use strict"
 import { readFile } from "fs/promises"
 import fs from "node:fs"
-import { describe } from "node:test"
+
 
 /* const personas = JSON.parse(fs.readFileSync("personasTrue.json", "utf-8")) */
 
@@ -10,7 +10,7 @@ function readJSON(file) {
         .then(data => JSON.parse(data))
 }
 
-//5.Funcionalidad que genera un objeto JSON. 
+//5-6.Funcionalidad que genera un objeto JSON. 
 function writeJSON(file, data) {
     const json = JSON.stringify(data, null, 2)
     fs.writeFile(file, json, "utf-8", (err) => {
@@ -97,59 +97,54 @@ function writeJSON(file, data) {
                         primeraMitad,
                         segundaMitad
                     }
-                    writeJSON("punto5.json", datosGuardar)
+                    await writeJSON("punto5.json", datosGuardar)
                     console.log("Archivo JSON con datos generado exitosamente.")
                 } catch (err) {
                     console.log("Error al consumir / construir el archivo JSON:", err)
                 }
-            }
-            /* let may = 0
-            data.forEach(persona => {
-                if (persona.edad > 18) {
-                    return may += 1
-                }
-            })
-            let men = 0
-            data.forEach(persona => {
-                if (persona.edad <= 18) {
-                    return men += 1
-                }
-            })
-            let priMit = 0
-            data.forEach(persona => {
-                if (persona.apellido[0] >= "A" && persona.apellido[0] <= "L") {
-                    return priMit += 1
-                }
-            })
-            let segMit = 0
-            data.forEach(persona => {
-                if (persona.apellido[0] >= "M" && persona.apellido[0] <= "Z") {
-                    return segMit += 1
-                }
-            })
-            const datosParaGuardar = {
-                "mayores": may,
-                "menores": men,
-                "primeraMitad": priMit,
-                "segundaMitad": segMit
-            }
-            writeJSON("punto5.json", datosParaGuardar) */
+            } punto5()
             //------------------------------------------------------------------ PUNTO 6 ----------------------------------------------------------------------------------------
             //6. Contenido para el archivo JSON creado en el punto JSON. 
-            const cantCastillos = []
-            data.forEach(persona => {
-                if (persona.apellido === "CASTILLO") {
-                    return cantCastillos.push(persona)
+            const cantPorApellido = (apellido) => {
+                return new Promise((resolve, reject) => {
+                    const cantPorApellido = []
+                    data.forEach(persona => {
+                        if (persona.apellido === apellido) {
+                            return cantPorApellido.push(persona)
+                        }
+                    })
+                    let cant = cantPorApellido.length
+                    if (cant === undefined) {
+                        reject(0)
+                    } else {
+                        resolve(cant)
+                    }
+                })
+            }
+            async function punto6() {
+                try {
+                    let castillos = 0
+                    let diaz = 0
+                    let ferrer = 0
+                    let pino = 0
+                    let romero = 0
+                    castillos = await cantPorApellido("CASTILLO")
+                    diaz = await cantPorApellido("DIAZ")
+                    ferrer = await cantPorApellido("FERRER")
+                    pino = await cantPorApellido("PINO")
+                    romero = await cantPorApellido("ROMERO")
+                    const datosGuardar6 = {
+                        castillos,
+                        diaz,
+                        ferrer,
+                        pino,
+                        romero
+                    }
+                    await writeJSON("punto6.json", datosGuardar6)
+                } catch (err) {
+                    console.log("Error al consumir / construir el archivo JSON:", err)
                 }
-            })
-            console.log("Cantidad de personas con apellido CASTILLO:", cantCastillos.length)
-            const cantCast = Array.from(mapPerson.get("CASTILLO")).length
-            console.log("Cantidad castillos: ", cantCast)
-            console.log(Array.from(mapPerson.get("CASTILLO")))
-            /* const keys = mapPerson.keys()
-            for (const clave of keys) {
-                console.log(mapPerson.get(clave))
-            } */
+            } punto6()
         })
         .catch(err => console.error("Error al consumir el archivo JSON:", err))
 })()
