@@ -65,7 +65,45 @@ function writeJSON(file, data) {
             console.log("Suma de edades de personas con nombre par y apellido impar:", suma)
             //------------------------------------------------------------------ PUNTO 5 ----------------------------------------------------------------------------------------
             //5. Lo que va a contener el archivo JSON.
-            let may = 0
+            async function punto5() {
+                try {
+                    let mayores = 0
+                    let menores = 0
+                    let primeraMitad = 0
+                    let segundaMitad = 0
+                    data.forEach(persona => {
+                        if (persona.edad > 18) {
+                            return mayores += 1
+                        }
+                    })
+                    data.forEach(persona => {
+                        if (persona.edad <= 18) {
+                            return menores += 1
+                        }
+                    })
+                    data.forEach(persona => {
+                        if (persona.apellido[0] >= "A" && persona.apellido[0] <= "L") {
+                            return primeraMitad += 1
+                        }
+                    })
+                    data.forEach(persona => {
+                        if (persona.apellido[0] >= "M" && persona.apellido[0] <= "Z") {
+                            return segundaMitad += 1
+                        }
+                    })
+                    const datosGuardar = {
+                        mayores,
+                        menores,
+                        primeraMitad,
+                        segundaMitad
+                    }
+                    writeJSON("punto5.json", datosGuardar)
+                    console.log("Archivo JSON con datos generado exitosamente.")
+                } catch (err) {
+                    console.log("Error al consumir / construir el archivo JSON:", err)
+                }
+            }
+            /* let may = 0
             data.forEach(persona => {
                 if (persona.edad > 18) {
                     return may += 1
@@ -95,7 +133,7 @@ function writeJSON(file, data) {
                 "primeraMitad": priMit,
                 "segundaMitad": segMit
             }
-            /* writeJSON("punto5.json", datosParaGuardar) */
+            writeJSON("punto5.json", datosParaGuardar) */
             //------------------------------------------------------------------ PUNTO 6 ----------------------------------------------------------------------------------------
             //6. Contenido para el archivo JSON creado en el punto JSON. 
             const cantCastillos = []
@@ -105,10 +143,13 @@ function writeJSON(file, data) {
                 }
             })
             console.log("Cantidad de personas con apellido CASTILLO:", cantCastillos.length)
-            const keys = mapPerson.keys()
+            const cantCast = Array.from(mapPerson.get("CASTILLO")).length
+            console.log("Cantidad castillos: ", cantCast)
+            console.log(Array.from(mapPerson.get("CASTILLO")))
+            /* const keys = mapPerson.keys()
             for (const clave of keys) {
                 console.log(mapPerson.get(clave))
-            }
+            } */
         })
         .catch(err => console.error("Error al consumir el archivo JSON:", err))
 })()
