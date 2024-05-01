@@ -54,6 +54,13 @@ function writeJSON(file, data) {
                 .sort((persona1, persona2) => persona1.nombre.localeCompare(persona2.nombre))
                 .forEach(persona => nombres.push(persona.nombre))
             console.log("Nombres ordenados con apellido GOMEZ: ", nombres.join(", "))
+            let nombresConN = []
+            nombres.forEach(nombre => {
+                if (nombre[0] === "N") {
+                    nombresConN.push(nombre)
+                }
+            })
+            console.log("Nombres con N: ", nombresConN.join(", "))
             //------------------------------------------------------------------ PUNTO 4 ----------------------------------------------------------------------------------------
             //4. Suma de edades de todas las personas con longitud de nombre par y apellido impar. 
             const suma = data.reduce((suma, persona) => {
