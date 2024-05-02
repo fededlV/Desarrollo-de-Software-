@@ -27,7 +27,7 @@ app.get("/user", (req, res) => {
 });
 
 app.get("/isAlive", (req, res) => {
-  res.sendStatus(204);
+  res.sendStatus(204); //Envia un codigo de estado 204, el cual no tiene contenido
 });
 
 app.listen(3000);
