@@ -1,29 +1,26 @@
-const express = require("express");
-const cors = require("cors");
-const service = require("./services/services.js");
-const db = require("./data/db.js");
-const { DBinit } = require("./data/db.js");
-const port = 3001;
-const app = express();
+import express from "express";
+import cors from "cors";
+import { Stores } from "./models/models.js";
+import { sequelize, locals } from "./data/db.js";
+import service from "./services/services.js";
+const port = 3002;
 
+const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/locales", async (req, res) => {
-  const result = await service.theyAreAR();
-  res.json(result);
-});
+const DBinit = async () => {
+  try {
+    await sequelize.sync({ force: true });
+    await Stores.bulkCrete(locals);
+    console.log("Database initialized");
+  } catch (error) {
+    console.error("Error initializing database: ", error);
+  }
+};
 
-app.get("/", async (req, res) => {
-  res.status(200).json(await service.getAll());
-});
-
-app.get("/locales/interior", async (req, res) => {
-  const result = await service.amba();
-  res.json(result);
-});
-
-app.listen(port, async () => {
-  console.log(`Servidor escuchando en http://localhost:${port}`);
-  await DBinit();
+DBinit().then(() => {
+  app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
 });

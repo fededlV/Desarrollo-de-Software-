@@ -44,28 +44,48 @@
             <input type="text" id="deleted" placeholder="Nombre museo para borrar">
             <button type="button" class="btn btn-danger" onclick="eliminarMuseo()">Borrar Museo</button>
         </div>
-        <div class="container" style="margin-top: 10px;">
-            <input type="text" id="aggregate" placeholder="Datos de museo a agregar">
-            <button type="button" class="btn btn-danger" onclick="agregarMuseo()">Agregar Museo</button>
-        </div>
-      <table class="table table-bordered border-primary table-striped" style="margin-top: 10px;">
-        <thead>
-          <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Ubicación</th>
-            <th scope="col">Exposiciones</th>
-            <th scope="col">Horarios</th>
-            <th scope="col">Precio de Entrada</th>
-          </tr>
-        </thead>
-        <tbody id="TablaMuseos">
-          <!-- Completaremos esta tabla usando fetch -->
-        </tbody>
-      </table>
-      <div class='form-group'>
+        <table class="table table-bordered border-primary table-striped" style="margin-top: 10px;">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Ubicación</th>
+              <th scope="col">Exposiciones</th>
+              <th scope="col">Horarios</th>
+              <th scope="col">Precio de Entrada</th>
+            </tr>
+          </thead>
+          <tbody id="TablaMuseos">
+            <!-- Completaremos esta tabla usando fetch -->
+          </tbody>
+        </table>
+        <div class='form-group'>
           <input type="text" id="name" placeholder="Nombre museo">
           <button type="button" onclick="getByName()">Buscar</button>
-      </div>
+        </div>
+        <h4 style="margin-top: 10px;">Agregar Nuevo Museo</h4>
+        <form id="aggregate"></form> 
+            <div class="mb-3">
+              <label for="destino-input" class="form-label">Nombre:</label>
+              <input type="text" class="form-control" id="nombre-input" required>
+            </div>
+            <div class="mb-3">
+              <label for="duracion-input" class="form-label">Ubicacion:</label>
+              <input type="text" class="form-control" id="ubicacion-input" required>
+            </div>
+            <div class="mb-3">
+              <label for="precio-input" class="form-label">Exposiciones:</label>
+              <input type="text" class="form-control" id="exposiciones-input" required>
+            </div>
+            <div class="mb-3">
+              <label for="descripcion-input" class="form-label">Horarios:</label>
+              <input type="text" class="form-control" id="horarios-input" required>
+            </div>
+            <div class="mb-3">
+              <label for="descripcion-input" class="form-label">Precio de Entrada:</label>
+              <input type="number" class="form-control" id="precioEntrada-input" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="agregarMuseo()">Agregar Museo</button>
+          </form>
     </div>
 
     <footer

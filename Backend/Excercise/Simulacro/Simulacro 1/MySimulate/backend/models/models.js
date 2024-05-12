@@ -1,7 +1,7 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../data/db.js");
+import { DataTypes } from "sequelize";
+import sequelize from "../data/db.js";
 
-const Stores = sequelize.define(
+export const Stores = sequelize.define(
   "STARBUCNKS_DIRECTORY",
   {
     number: {
@@ -56,4 +56,4 @@ const Stores = sequelize.define(
   }
 );
 
-module.exports = Stores;
+export default Stores;

@@ -84,7 +84,6 @@ function agregarPaquete() {
 // Función para eliminar un paquete
 function eliminarPaquete(id) {
   const $tabla = document.getElementById("lista-paquetes");
-  const $botonEliminar = document.getElementsByClassName("eliminar");
   if (confirm("¿Estás seguro de eliminar el paquete?")) {
     fetch(apiUrl + "/" + id, {
       method: "DELETE",

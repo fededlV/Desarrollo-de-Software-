@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import db from "./data/db.js";
 import { Museum } from "./models/models.js";
-import sequelize from "./data/db.js";
+import service from "./services/services.js";
 const port = 3000;
 
 const app = express();
@@ -87,39 +87,13 @@ async function DBinit() {
   ]);
 }
 
-app.get("/museum", async (req, res) => {
-  res.status(200).json(await Museum.findAll());
-});
+app.get("/museos/consulta", service.getByName);
 
-app.post("/museum", async (req, res) => {
-  const newMuseum = req.body;
-  const museum = await Museum.create(newMuseum);
-  res.json(museum);
-});
+app.get("/museos", service.chargeMuseums);
 
-/* app.post("/museum", async (req, res) => {
-  const { nombre, ubicacion, exposiciones, horarios, precioEntrada } = req.body;
-  const data = await Museum.create(req.body);
-  const sqlite = `INSERT INTO Museums (nombre, ubicacion, exposiciones, horarios, precioEntrada) VALUES ('${nombre}', '${ubicacion}', '${exposiciones}', '${horarios}', '${precioEntrada}')`;
-  db.query(sqlite, (err, res) => {
-    if (err) {
-      res.status(500).send("Error al insertar datos en la base de datos");
-      throw err;
-    }
-    res.status(201).json(data);
-  });
-}); */
+app.post("/museos", service.newMuseum);
 
-app.delete("/museum/:id", async (req, res) => {
-  const museoId = req.params.id;
-  const deleted = await Museum.findOne({ where: { id: museoId } });
-  if (!deleted) {
-    res.status(404).json({ error: "Museo no encontrado" });
-  } else {
-    await deleted.destroy();
-  }
-  res.json(deleted);
-});
+app.delete("/museos", service.deleteMuseum);
 
 DBinit().then(
   app.listen(port, async () => {
