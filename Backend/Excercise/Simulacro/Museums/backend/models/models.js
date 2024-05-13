@@ -4,11 +4,25 @@ import sequelize from "../data/db.js";
 export const Museum = sequelize.define(
   "Museum",
   {
-    nombre: DataTypes.STRING,
-    ubicacion: DataTypes.STRING,
-    exposiciones: DataTypes.STRING,
-    horarios: DataTypes.STRING,
-    precioEntrada: DataTypes.INTEGER,
+    /* id: {
+      primaryKey: true,
+      autoIncrement: true,
+    }, */
+    nombre: {
+      type: DataTypes.STRING,
+    },
+    ubicacion: {
+      type: DataTypes.STRING,
+    },
+    exposiciones: {
+      type: DataTypes.STRING,
+    },
+    horarios: {
+      type: DataTypes.STRING,
+    },
+    precioEntrada: {
+      type: DataTypes.INTEGER,
+    },
   },
   {
     timestamps: false,
