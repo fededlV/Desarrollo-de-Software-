@@ -2,7 +2,8 @@ const apiUrl = "http://localhost:3000/paquetes"; // Reemplaza con la URL de tu A
 
 // Función para cargar la grilla de paquetes
 function cargarPaquetes() {
-  const $tabla = document.getElementById("lista-paquetes");
+  let $tabla = document.getElementById("lista-paquetes");
+  $tabla.innerHTML = "";
   /* const celdaAccion = document.createElement("th");
   const boton = document.createElement("button");
   const eliminar = celdaAccion.appendChild(boton);
@@ -13,13 +14,15 @@ function cargarPaquetes() {
     })
     .then((paquetes) => {
       paquetes.forEach((p) => {
-        $tabla.innerHTML += `<tr>
+        const row = document.createElement("tr");
+        row.innerHTML = `
                     <th>${p.destino}</th>
                     <th>${p.duracion}</th>
                     <th>${p.precio}</th>
                     <th>${p.descripcion}</th>
                     <th><button class="btn btn-danger btn-sm" onclick="eliminarPaquete(${p.id})">Eliminar</button></th>
-                </tr>`;
+                `;
+        $tabla.appendChild(row);
       });
     });
 }
@@ -27,55 +30,66 @@ function cargarPaquetes() {
 // Función para buscar paquetes por descripción
 function buscarPaquetes() {
   const busqueda = document.getElementById("buscar-input").value.toLowerCase();
-  const $tabla = document.getElementById("lista-paquetes");
+  let $tabla = document.getElementById("lista-paquetes");
   fetch(apiUrl + "/consulta?q=" + busqueda)
     .then((res) => {
       return res.json();
     })
     .then((paquetes) => {
+      $tabla.innerHTML = "";
       paquetes.forEach((p) => {
-        $tabla.innerHTML = `<tr>
+        const row = document.createElement("tr");
+        row.innerHTML = `
             <th>${p.destino}</th>
             <th>${p.duracion}</th>
             <th>${p.precio}</th>
             <th>${p.descripcion}</th>
             <td><button class="btn btn-danger btn-sm" onclick="eliminarPaquete(${p.id})">Eliminar</button></td>
-            </tr>`;
+            `;
+        $tabla.appendChild(row);
       });
     });
 }
 
 // Función para agregar un nuevo paquete
 function agregarPaquete() {
-  const $tabla = document.getElementById("lista-paquetes");
-  const destino = document.getElementById("destino-input").value;
-  const duracion = document.getElementById("duracion-input").value;
-  const precio = document.getElementById("precio-input").value;
-  const descripcion = document.getElementById("descripcion-input").value;
+  const nuevoPaquete = {
+    destino: document.getElementById("destino-input").value,
+    duracion: document.getElementById("duracion-input").value,
+    precio: document.getElementById("precio-input").value,
+    descripcion: document.getElementById("descripcion-inpu").value,
+  };
   fetch(apiUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ destino, duracion, descripcion, precio }),
+    body: JSON.stringify({ nuevoPaquete }),
   })
     .then((res) => {
       if (res.status !== 201) {
         throw new Error("Error al crear el paquete");
       }
-      return res.json();
+      document.getElementById("destino-input").value = "";
+      document.getElementById("duracion-input").value = "";
+      document.getElementById("precio-input").value = "";
+      document.getElementById("descripcion-input").value = "";
+      cargarPaquetes();
     })
-    .then((paquete) => {
+    /* .then((paquete) => {
+      $tabla.innerHTML = "";
       paquete.forEach((p) => {
-        $tabla.innerHTML += `<tr>
+        const row = document.createElement("tr");
+        row.innerHTML = `
             <th>${p.destino}</th>
             <th>${p.duracion}</th>
             <th>${p.precio}</th>
             <th>${p.descripcion}</th>
             <td><button class="btn btn-danger btn-sm" onclick="eliminarPaquete(${p.id})">Eliminar</button></td>
-            </tr>`;
+           `;
+        $tabla.appendChild(row);
       });
-    })
+    }) */
     .catch((error) => {
       console.error("Error al crear el paquete", error);
     });
@@ -83,28 +97,29 @@ function agregarPaquete() {
 
 // Función para eliminar un paquete
 function eliminarPaquete(id) {
-  const $tabla = document.getElementById("lista-paquetes");
   if (confirm("¿Estás seguro de eliminar el paquete?")) {
     fetch(apiUrl + "/" + id, {
       method: "DELETE",
-    })
-      .then((res) => {
-        if (res.status !== 204) {
-          throw new Error("Error al eliminar el paquete");
-        }
-        return res.json();
-      })
-      .then((paquete) => {
+    }).then((res) => {
+      if (res.status !== 204) {
+        throw new Error("Error al eliminar el paquete");
+      }
+      cargarPaquetes();
+    });
+    /* .then((paquete) => {
+        $tabla.innerHTML = "";
         paquete.forEach((p) => {
-          $tabla.innerHTML += `<tr>
+          const row = document.createElement("tr");
+          row.innerHTML = `
             <th>${p.destino}</th>
             <th>${p.duracion}</th>
             <th>${p.precio}</th>
             <th>${p.descripcion}</th>
             <td><button class="btn btn-danger btn-sm" onclick="eliminarPaquete(${p.id})">Eliminar</button></td>
-            </tr>`;
-        });
-      });
+            `;
+          $tabla.appendChild(row);
+        }); */
+    /* }); */
   }
 }
 
