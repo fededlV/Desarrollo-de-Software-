@@ -5,21 +5,22 @@ import Product, { Navbar } from "./Product";
 import { Button } from "./Button";
 import { TaskCard } from "./Task";
 import { Saludar } from "./Saludar";
+import { Post } from "./Post";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-/* root.render(<h1>Hello React!!</h1>); Creando un hola mundo */
+root.render(<h1>Hello React!!</h1>); //Creando un hola mundo
 
 //Creacion de primer componente
-/* function Greeting() { */
-/* const married = true; */
-/* if (married) {
+/*  function Greeting() {
+ const married = true;
+ if (married) {
     return <h1>Estoy casado</h1>;
   } else {
     return <h1>No estoy casado</h1>;
-  } */
+  }
 //Con operador ternario
-/* return <h1>{married ? "Estoy casado 😃" : "No estoy casado 🤣"}</h1>; */
-/* const user = {
+ return <h1>{married ? "Estoy casado 😃" : "No estoy casado 🤣"}</h1>;
+ const user = {
     firstName: "Fede",
     lastName: "de la Vega",
   };
@@ -34,38 +35,38 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
       <h3>{user.lastName}</h3>
     </div>
   );
-}
-root.render( */
-/* <> */
-/* Fragment <>: Etiqueta de JSX que nos permite no utilizar muchos div o otras etiquetas para contener contenido js, es un contenedor vacio */
-/*  <Greeting />
+} */
+root.render(
+  <>
+    {/* Fragment <>: Etiqueta de JSX que nos permite no utilizar muchos div o otras etiquetas para contener contenido js, es un contenedor vacio */}
     <Greeting />
     <Greeting />
-  </> */
-/* Self closing tag: etiquetas que se cierran en si misma */
-/* ); */
+    <Greeting />
+  </>
+  /* Self closing tag: etiquetas que se cierran en si misma */
+);
 
-/*--------------------------------------------Etapa EcmaScript - Javascript Modules------------------------- */
+/* --------------------------------------------Etapa EcmaScript - Javascript Modules------------------------- */
 
-/* root.render(
+root.render(
   <>
     <Greeting />
     <UserCard></UserCard>
     <Product />
     <Navbar />
   </>
-); */
+);
 
-/* -------------------------------------------- React Props ------------------------------------------------------------ */
-/*  Props: Parametro de una funcion, el title por ejemplo es un props
-Tambien puede ser q se le pase una funcion  */
-/* root.render(
-  <> */
-/* <Greeting title="hola" name="Fede" />
+/* -------------------------------------------- React Props ------------------------------------------------------------
+  Props: Parametro de una funcion, el title por ejemplo es un props
+Tambien puede ser q se le pase una funcion */
+root.render(
+  <>
+    <Greeting title="hola" name="Fede" />
     <Greeting title="Hola React" name="Ryan" />
     <Greeting title="Hola Fede" />
-    <Greeting title="Hola PA" /> */
-/* <UserCard
+    <Greeting title="Hola PA" />
+    <UserCard
       name="Fede de la Vega"
       amount={3000}
       married={true}
@@ -76,24 +77,24 @@ Tambien puede ser q se le pase una funcion  */
       }}
     />
   </>
-); */
+);
 
-/* -------------------------------------------- PropTypes y defaultProps ------------------------------------------------ */
+/*  -------------------------------------------- PropTypes y defaultProps ------------------------------------------------*/
 //PropTypes: Es una libreria que nos permite validar los tipos de datos que se le pasan a los componentes
-/* root.render(
+root.render(
   <>
     <Button text="Pay" />
     <Button text="Go to" />
     <Button text="" name="Fede" />
   </>
 );
- */
-/* -------------------------------------------- Estilos de componentes ------------------------------------------------ */
-/* root.render(
+
+/*  -------------------------------------------- Estilos de componentes ------------------------------------------------ */
+root.render(
   <>
     <TaskCard ready={true} />
   </>
-); */
+);
 
 /* -------------------------------------------- Tipos de componentes ------------------------------------------------ */
 
@@ -103,11 +104,11 @@ root.render(
   </>
 );
 
-/* -------------------------------------------- Event Handlers  ------------------------------------------------ */
+/*  -------------------------------------------- Event Handlers  ------------------------------------------------ */
 
-const handleChange = (e) => {
+/* const handleChange = (e) => {
   console.log(e.target.value);
-};
+}; */
 
 root.render(
   <>
@@ -134,5 +135,50 @@ root.render(
       <h1>Registro de usuario</h1>
       <button>Send</button>
     </form>
+  </>
+);
+/* -------------------------------------------- Fetch API ------------------------------------------------------------- */
+
+root.render(
+  <>
+    <Post />
+  </>
+);
+
+/* --------------------------------------------- Third Party modules, react-icons -------------------------------------- */
+
+root.render(
+  <>
+    <Post />
+  </>
+);
+
+/* --------------------------------------------- Arrays ----------------------------------------------------------- */
+
+const user = [
+  {
+    id: 1,
+    name: "Fede",
+    lastName: "de la Vega",
+    image: "https://robohash.org/1",
+  },
+  {
+    id: 2,
+    name: "santi",
+    lastName: "Vega",
+    image: "https://robohash.org/2",
+  },
+];
+
+root.render(
+  <>
+    {user.map((user, index) => {
+      return (
+        <div key={index}>
+          <h1>{user.name}</h1>
+          <img src={user.image}></img>
+        </div>
+      );
+    })}
   </>
 );
