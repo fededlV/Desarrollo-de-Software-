@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { Greeting, UserCard } from "./Greeting";
 import Product, { Navbar } from "./Product";
@@ -176,7 +176,8 @@ root.render(
       return (
         <div key={index}>
           <h1>{user.name}</h1>
-          <img src={user.image}></img>
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
+          <img src={user.image} alt=""></img>
         </div>
       );
     })}
@@ -184,3 +185,95 @@ root.render(
 );
 
 /* --------------------------------------------- React Hooks ----------------------------------------------------------- */
+/* useState: Permite que podamos cambiar un elemento a lo largo del ciclo de vida de la aplicacion, cambia en la interfaz. */
+
+const Counter = () => {
+  /* const [ counter, setCounter] = useState(10) */
+  const [mensaje, setMensaje] = useState("");
+  return (
+    <>
+      <div>
+        <input
+          onChange={(e) => {
+            setMensaje(e.target.value);
+          }}
+        />
+        <button
+          onClick={() => {
+            alert("El mensaje es: " + mensaje);
+          }}
+        >
+          Save
+        </button>
+      </div>
+      {/* <h1>Counter: {counter}</h1>
+      <button
+      onClick={() => {
+          setCounter(counter + 1);
+        }}
+      >
+        Increment
+      </button>
+      <button
+        onClick={() => {
+          setCounter(counter - 1);
+        }}
+      >
+      Decrement
+      </button>
+      <button
+      onClick={() => {
+        setCounter(15);
+        }}
+        >
+        Reset
+      </button> */}
+    </>
+  );
+};
+
+root.render(
+  <>
+    <Counter />
+  </>
+);
+
+/* useEffect */
+const Counter2 = () => {
+  const [numero, setNumero] = useState();
+  const [counter, setCounter] = useState(0);
+
+  useEffect(() => {
+    console.log("render");
+  }, [counter]); //Se ejecuta solo cuando counter cambia
+
+  return (
+    <>
+      <div>
+        <input onChange={(e) => setNumero(e.target.value)} />
+        <button
+          onClick={() => {
+            alert("El numero es: " + numero);
+          }}
+        >
+          Save
+        </button>
+        <hr />
+        <h1>Counter: {counter}</h1>
+        <button
+          onClick={() => {
+            setCounter(counter + 1);
+          }}
+        >
+          Incrementar
+        </button>
+      </div>
+    </>
+  );
+};
+
+root.render(
+  <>
+    <Counter2 />
+  </>
+);
