@@ -1,10 +1,13 @@
 /* import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg' */
-import './App.css'
+/* import './App.css' */
+import TaskForm from './components/TaskForm'
+import TaskList from './components/TaskList'
 
-function App() {
-  /* const [count, setCount] = useState(0)
+
+/* function App() {
+   const [count, setCount] = useState(0)
 
   return (
     <>
@@ -29,16 +32,21 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  ) */
-  return <h1>
-    <ul>
-      <li><a href=""></a></li>
-      <li><a href=""></a></li>
-      <li><a href=""></a></li>
-      <li><a href=""></a></li>
-      <li><a href=""></a></li>
-    </ul>
-  </h1>
+  ) 
+}
+
+export default App
+ */
+
+function App() {
+  return (
+    <main className='bg-zinc-900 h-screen'>
+      <div className='container mx-auto p-10'>
+      <TaskForm />
+      <TaskList />
+      </div>
+    </main>
+  )
 }
 
 export default App
